@@ -3,7 +3,7 @@
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
-font pango:FiraCode Nerd Font Mono Regular 8
+font pango:FiraCode Nerd Font Mono 8
 
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
@@ -32,10 +32,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Brillo
 # Subir brillo
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 # Bajar brillo
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -180,10 +179,13 @@ bindsym Print exec xfce4-screenshooter
 bindsym $mod+Shift+s exec xfce4-screenshooter
 
 # Start i3bar to display a workspace bar (plus the system information i3status
-bar {
-    position top
-    status_command i3status
-}
+# bar {
+#     position top
+#     status_command i3status
+# }
+
+# polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Policykit
 exec_always --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
@@ -197,5 +199,5 @@ gaps inner 5
 gaps outer 5
 
 # Wallpaper
-exec --no-startup-id feh --bg-fill ~/.local/share/wallpapers/tokio.png
+exec --no-startup-id feh --bg-scale $HOME/.local/share/wallpapers/tokio.png
 
