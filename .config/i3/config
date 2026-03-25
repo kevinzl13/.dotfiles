@@ -201,3 +201,18 @@ gaps outer 5
 # Wallpaper
 exec --no-startup-id feh --bg-scale $HOME/.local/share/wallpapers/tokio.png
 
+# Color
+# Bordes
+# class                 border  backgr. text    indicator child_border
+
+# Ventana enfocada con color
+client.focused          #bd93f9 #282a36 #f8f8f2 #ff79c6 #bd93f9
+
+# Ventana no enfocada (neutra)
+client.unfocused        #44475a #21222c #6272a4 #44475a #44475a
+
+# Ventana urgente
+client.urgent           #ff5555 #3b1f1f #f8f8f2 #ff5555 #ff5555
+
+# Placeholder (solo fondo y texto)
+client.placeholder      #282a36 #282a36 #6272a4
