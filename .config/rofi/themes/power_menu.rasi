@@ -1,0 +1,140 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+
+   text-color: #FFFFFF;
+   urgent: #F38BA8;
+   active: #DDB6F2;
+   bg: #181825;
+   bg-alt: #262626;
+   fg: #FFFFFF;
+   fg-alt: #FAB387;
+
+   selected: #DDB6F2;
+   background-color: #181825;
+   text-color: #FFFFFF;
+}
+
+configuration {
+    font: "JetBrains Mono Nerd Font 12";
+    show-icons:                 false;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+}
+
+/*
+USE_BUTTONS=YES
+*/
+
+window {
+    /* properties for window widget */
+location:                    center;
+anchor:                      center;
+fullscreen:                  false;
+width:                       600px;
+                             x-offset:                    0px;
+                             y-offset:                    0px;
+
+                             /* properties for all widgets */
+font:                        "JetBrains Mono Nerd Font 12";
+enabled:                     true;
+margin:                      0px;
+padding:                     0px;
+border:                      0px solid;
+                             border-radius:               0px;
+                             border-color:                @selected;
+cursor:                      "default";
+                             background-color:            @bg;
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            transparent;
+    children:                    [ "message", "listview" ];
+}
+
+message {
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     10px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            @bg-alt;
+    text-color:                  @fg;
+}
+
+textbox {
+    background-color:            inherit;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+    placeholder-color:           @fg;
+    blink:                       true;
+    markup:                      true;
+}
+
+error-message {
+    padding:                     12px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            @bg;
+    text-color:                  @fg;
+}
+
+listview {
+    enabled:                     true;
+    columns:                     6;
+    lines:                       1;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     10px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    text-color:                  @fg;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     15px 0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            @bg-alt;
+    text-color:                  @active;
+    cursor:                      pointer;
+    border-radius:               4px;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+element selected.normal {
+    background-color:            var(active);
+    text-color:                  var(bg);
+}

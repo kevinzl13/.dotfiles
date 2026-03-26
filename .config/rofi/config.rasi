@@ -10,7 +10,7 @@ configuration {
     run-display-format: "{icon} {name}";
     font: "FiraCode Nerd Font Mono Regular 10";
     show-icons: true;
-    icon-theme: "Papirus";
+    icon-theme: "Nordzy";
     ml-row-down: "ScrollDown";
     ml-row-up: "ScrollUp";
     key-accept-entry: "Return";

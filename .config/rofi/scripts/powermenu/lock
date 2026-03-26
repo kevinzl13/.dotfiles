@@ -1,17 +1,19 @@
 #!/bin/sh
 
 alpha='dd'
-background='#282a36'
-selection='#44475a'
-comment='#6272a4'
 
-yellow='#f1fa8c'
-orange='#ffb86c'
-red='#ff5555'
-magenta='#ff79c6'
-blue='#6272a4'
-cyan='#8be9fd'
-green='50fa7b'
+# Paleta personalizada
+background='#262626'
+selection='#585B70' 
+comment='#DDB6F2'         
+text='#ffffff'
+yellow='#f1fa8c'          
+orange='#FAB387'          
+red='#F38BA8'             
+magenta='#bd93f9'         
+blue='#6272a4'            
+cyan='#FFFFFF'            
+green='#50fa7b'           
 
 i3lock \
     --pointer default \
@@ -33,8 +35,8 @@ i3lock \
     --wrong-color=$red \
     --modif-color=$red \
     --layout-color=$blue \
-    --date-color=$blue \
-    --time-color=$blue \
+    --date-color=$text \
+    --time-color=$text \
     --screen 1 \
     --blur 1 \
     --clock \

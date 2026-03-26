@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+import subprocess
+import os
+from typing import List
+
+CONFIG_DIR = os.environ.get("HOME", "")
+LOCKSCREEN_WALLPAPER = f"{CONFIG_DIR}/.local/share/wallpapers/dreamscape.png"
+
+if not CONFIG_DIR:
+    raise EnvironmentError("No se encontró la variable de entorno 'HOME'.")
+
+
+def get_uptime() -> str:
+    result = subprocess.run(["uptime", "-p"], capture_output=True, text=True)
+    return result.stdout.strip().replace("up ", "")
+
+
+# Iconos
+POWEROFF_ICON = ""
+LOCK_ICON = ""
+SUSPEND_ICON = ""
+REBOOT_ICON = ""
+SESION_ICON = ""
+CLOSE_ICON = ""
+
+YES_ICON = ""
+NO_ICON = ""
+
+
+def main_menu() -> str:
+    options: List[str] = [
+        LOCK_ICON,
+        SUSPEND_ICON,
+        SESION_ICON,
+        REBOOT_ICON,
+        POWEROFF_ICON,
+        CLOSE_ICON
+    ]
+    menu: str = "\n".join([f"{item}" for item in options])
+    uptime = get_uptime()
+    result = subprocess.run(
+        [
+            "rofi",
+            "-dmenu",
+            "-p",
+            f"Uptime: {uptime}",
+            "-mesg",
+            f"Uptime: {uptime}",
+            "-theme",
+            f"{CONFIG_DIR}/.config/rofi/themes/power_menu.rasi",
+        ],
+        input=menu,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    return result.split("\n")[0]
+
+
+def confirm() -> bool:
+    options = [YES_ICON, NO_ICON]
+    menu: str = "\n".join([f"{item}" for item in options])
+    result = subprocess.run(
+        [
+            "rofi",
+            "-theme",
+            f"{CONFIG_DIR}/.config/rofi/themes/power_menu.rasi",
+            "-theme-str",
+            "listview {columns: 2; lines: 1;}",
+            "-dmenu",
+            "-p",
+            "Confirmation",
+            "-mesg",
+            "Confirm?",
+        ],
+        input=menu,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    return result == YES_ICON
+
+
+def power():
+    selected = main_menu()
+
+    if not selected or selected == CLOSE_ICON:
+        return
+
+    action_map = {
+        LOCK_ICON: [os.path.expanduser("~/.config/rofi/scripts/powermenu/lock")],
+        SUSPEND_ICON: ["systemctl", "suspend"],
+        SESION_ICON: ["i3-msg", "exit"],
+        REBOOT_ICON: ["systemctl", "reboot"],
+        POWEROFF_ICON: ["systemctl", "poweroff"],
+    }
+
+    if selected == LOCK_ICON:
+        subprocess.run(action_map[LOCK_ICON])
+
+    elif action := action_map[selected]:
+        if confirm():
+            subprocess.run(action)
+
+
+if __name__ == "__main__":
+    power()
