@@ -1,11 +1,11 @@
 // Temas
-@theme "~/.config/rofi/themes/android_notification.rasi"
+@theme "~/.config/rofi/themes/menu.rasi"
 
 configuration {
     modi: "drun,run,window";
-    display-drun: " Applications";
-    display-run: " Run";
-    display-window: "󱂬 Windows";
+    display-drun: " Applications:";
+    display-run: " Run:";
+    display-window: "󱂬 Windows:";
     drun-display-format: "{icon} {name}";
     run-display-format: "{icon} {name}";
     font: "FiraCode Nerd Font Mono Regular 10";
@@ -15,6 +15,8 @@ configuration {
     ml-row-up: "ScrollUp";
     key-accept-entry: "Return";
     hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
 }
 
 

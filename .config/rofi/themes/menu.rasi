@@ -1,0 +1,111 @@
+@import "colors" 
+
+* {
+    spacing: 2;
+}
+
+window {
+    background-color: @background-color;
+    border: 1px solid;
+    border-color: @bordercolorwindow;
+    padding: 5;
+    location: center;
+    border-radius: 1px;
+}
+
+mainbox {
+    border:  0;
+    padding: 0;
+    children: [ inputbar,mode-switcher, listview ];
+}
+
+inputbar {
+    enable: true;
+    border: 0 0 1px 0 solid;
+    border-color: @mauve;
+}
+
+message {
+    border:       1px solid 0px 0px ;
+    border-color: @separatorcolor;
+    padding:      1px ;
+}
+
+entry {
+    text-color: @text-color;
+}
+
+textbox {
+    text-color: @text-color;
+}
+
+listview {
+    fixed-height: 0;
+    border:       2px solid 0px 0px ;
+    border-color: @separatorcolor;
+    spacing:      2px ;
+    padding:      2px 0px 0px ;
+    scrollbar: true;
+}
+element {
+    border:  0;
+    padding: 1px ;
+    background: #262626;
+    text-color: #FFFFFF;
+}
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+element.normal.normal {
+    background-color: @background-color;
+    text-color: @text-color;
+}
+
+element.normal.urgent {
+    background-color: @alert;
+    text-color: @urgent-foreground;
+}
+
+element.normal.active {
+    background-color: @background;
+    text-color: @active;
+}
+
+element.selected.normal {
+    background-color: @background-color;
+    text-color: @peach;
+}
+
+element.selected.urgent {
+    background-color: @red;
+    text-color: @text-color;
+}
+
+
+scrollbar {
+    width:        4px ;
+    border:       0;
+    handle-width: 8px ;
+    padding:      0;
+}
+
+mode-switcher {
+    enabled: true;
+    spacing: 5px;
+    padding: 5px;
+    border: 0;
+    children: [ button ];
+}
+
+button {
+    padding: 5px 10px;
+    background-color: @background;
+    text-color: @text-color;
+}
+
+button.selected {
+    background-color: @active;
+    text-color: @bg;
+}

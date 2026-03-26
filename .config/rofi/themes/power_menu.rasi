@@ -1,27 +1,15 @@
+@import "colors"
+
 * {
     border: 0;
     margin: 0;
     padding: 0;
     spacing: 0;
-
-   text-color: #FFFFFF;
-   urgent: #F38BA8;
-   active: #DDB6F2;
-   bg: #181825;
-   bg-alt: #262626;
-   fg: #FFFFFF;
-   fg-alt: #FAB387;
-
-   selected: #DDB6F2;
-   background-color: #181825;
-   text-color: #FFFFFF;
 }
 
 configuration {
     font: "JetBrains Mono Nerd Font 12";
     show-icons:                 false;
-    me-select-entry: "";
-    me-accept-entry: "MousePrimary";
 }
 
 /*
