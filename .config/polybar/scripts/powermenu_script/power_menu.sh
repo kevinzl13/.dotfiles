@@ -12,7 +12,7 @@ CLOSE=""
 YES=""
 NO=""
 
-# Opciones del menú
+Opciones del menú
 powermenu_options() {
     echo -en "$POWEROFF Apagar\0meta\x1fpoweroff power off shutdown apagar\n"
     echo -en "$REBOOT Reiniciar\0meta\x1freboot restart reiniciar\n"
@@ -25,6 +25,8 @@ powermenu_options() {
 # Menú principal
 powermenu() {
     powermenu_options | rofi -dmenu -i -p "Power Menu" \
+        -me-select-entry '' \
+        -me-accept-entry MousePrimary \
         -theme-str 'listview {lines:6;} element {text-align:center; font:"FiraCode Nerd Font 18";}'
 }
 
@@ -39,6 +41,8 @@ assert_confirm() {
     local cmd="$1"
     local choice
     choice=$(confirm_menu | rofi -dmenu -i -p "¿Estás seguro?" \
+        -me-select-entry '' \
+        -me-accept-entry MousePrimary \
         -theme-str 'listview {lines:2;} element {text-align:center; font:"FiraCode Nerd Font 18";}')
 
     if [[ "$choice" == "$YES Si" ]]; then
