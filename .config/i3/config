@@ -216,3 +216,6 @@ client.urgent           #ff5555 #3b1f1f #f8f8f2 #ff5555 #ff5555
 
 # Placeholder (solo fondo y texto)
 client.placeholder      #282a36 #282a36 #6272a4
+
+# Dunst
+exec --no-startup-id dunst
