@@ -11,10 +11,10 @@ configuration {
     font: "FiraCode Nerd Font Mono Regular 10";
     show-icons: true;
     icon-theme: "Papirus";
-    me-select-entry: "MousePrimary";
-    me-accept-entry: "MouseDPrimary";
     ml-row-down: "ScrollDown";
     ml-row-up: "ScrollUp";
+    key-accept-entry: "Return";
+    hover-select: true;
 }
 
 
