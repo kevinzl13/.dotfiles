@@ -67,7 +67,7 @@ main() {
             ;;
         "$LOCK Bloquear")
             # assert_confirm "echo 'Bloqueando...'"
-            assert_confirm "i3lock"
+            assert_confirm "./lock_dracula"
             ;;
         "$LOGOUT Cerrar Sesión")
             # assert_confirm "echo 'Cerrando sesión...'"
