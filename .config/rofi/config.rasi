@@ -1,5 +1,6 @@
 // Temas
 @theme "~/.config/rofi/themes/menu.rasi"
+// @theme "~/.config/rofi/themes/android_notification.rasi"
 
 configuration {
     modi: "drun,run,window";
