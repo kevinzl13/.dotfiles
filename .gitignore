@@ -1,0 +1,12 @@
+# Archivos compilados de Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Configuración de ranger
+.config/ranger/plugins/__pycache__/
+
+# Archivos temporales de sistema
+*.swp
+*.DS_Store
+
