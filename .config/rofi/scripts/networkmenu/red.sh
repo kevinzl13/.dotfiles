@@ -36,7 +36,7 @@ if [[ -n "$selected_wifi" ]]; then
     else
         # Si la red está protegida (tiene seguridad), pedir la contraseña
         if [[ "$selected_wifi" == *""* ]]; then
-            password=$(rofi -dmenu -p "Enter password for $ssid")
+            password=$(rofi -dmenu -p "Enter password for $ssid:")
 
             # Si no se ingresó una contraseña, no hacemos nada
             if [[ -n "$password" ]]; then
