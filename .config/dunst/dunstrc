@@ -1,0 +1,17 @@
+[urgency low]
+background = #262626
+foreground = #FFFFFF
+accent     = #bd93f9
+
+[urgency normal]
+background = #DDB6F2
+foreground = #181825
+accent     = #bd93f9
+
+[urgency critical]
+background = #F38BA8
+foreground = #FFFFFF
+accent     = #bd93f9
+
+frame_color = #bd93f9
+border_width = 2
