@@ -12,20 +12,15 @@ if [[ -z "$wifi_iface" ]]; then
 fi
 
 
-
 wifi_menu() {
 
-
-# ==============================
-# Estado WiFi
-# ==============================
 
 wifi_state=$(nmcli radio wifi)
 
 
 
 # ==============================
-# Escanear redes
+# Escaneo
 # ==============================
 
 if [[ "$wifi_state" == "enabled" ]]; then
@@ -33,7 +28,12 @@ if [[ "$wifi_state" == "enabled" ]]; then
     nmcli device wifi rescan ifname "$wifi_iface" >/dev/null 2>&1
     sleep 1
 
+
     wifi_list=$(nmcli -t -f SSID,SECURITY,SIGNAL device wifi list ifname "$wifi_iface")
+
+
+    wifi_bssid=$(nmcli -f SSID,BSSID device wifi list ifname "$wifi_iface" | tail -n +2)
+
 
 else
 
@@ -43,17 +43,33 @@ fi
 
 
 
-# ==============================
-# Crear menú
-# ==============================
-
 declare -A wifi_map
 
 menu=""
 
 
 
-# Encender / apagar WiFi
+# ==============================
+# Red actual
+# ==============================
+
+current_ssid=$(nmcli -t -f ACTIVE,SSID device wifi list ifname "$wifi_iface" |
+awk -F: '$1=="yes"{print $2}')
+
+
+
+if [[ -n "$current_ssid" ]]; then
+
+    menu+="󰤨 Conectado: $current_ssid"$'\n'
+    menu+=$'\n'
+
+fi
+
+
+
+# ==============================
+# Opciones
+# ==============================
 
 if [[ "$wifi_state" == "enabled" ]]; then
 
@@ -66,13 +82,13 @@ else
 fi
 
 
-
 menu+="󰑐 Refresh"$'\n'
+menu+="󰆴 Olvidar red"$'\n'
 
 
 
 # ==============================
-# Lista redes
+# Redes WiFi
 # ==============================
 
 while IFS=: read -r ssid security signal; do
@@ -82,29 +98,23 @@ while IFS=: read -r ssid security signal; do
 
 
 
-    # Evitar duplicados
-
-    [[ -n "${wifi_map[$ssid]}" ]] && continue
-
-
-
     # Icono señal
 
     if (( signal <= 25 )); then
 
-        wifi_signal="󰤟"
+        icon="󰤟"
 
     elif (( signal <= 50 )); then
 
-        wifi_signal="󰤢"
+        icon="󰤢"
 
     elif (( signal <= 75 )); then
 
-        wifi_signal="󰤥"
+        icon="󰤥"
 
     else
 
-        wifi_signal="󰤨"
+        icon="󰤨"
 
     fi
 
@@ -112,7 +122,7 @@ while IFS=: read -r ssid security signal; do
 
     # Seguridad
 
-    if [[ -z "$security" || "$security" == "--" ]]; then
+    if [[ "$security" == "--" || -z "$security" ]]; then
 
         lock=""
 
@@ -138,14 +148,24 @@ while IFS=: read -r ssid security signal; do
 
 
 
-    entry="$wifi_signal $lock $ssid ${signal}% $saved"
+    # Obtener BSSID correspondiente
+
+    bssid=$(echo "$wifi_bssid" |
+        awk -v s="$ssid" '$1==s {print $2; exit}')
 
 
-    wifi_map["$entry"]="$ssid"
+
+    entry="$icon $lock $ssid $saved"
+
+
+
+    # Guardar datos internos
+
+    wifi_map["$entry"]="$ssid|$bssid|$security"
+
 
 
     menu+="$entry"$'\n'
-
 
 
 done <<< "$wifi_list"
@@ -161,13 +181,19 @@ selected=$(echo "$menu" | rofi -dmenu -i -p "WiFi:")
 
 
 # ==============================
-# WiFi ON/OFF
+# Opciones
 # ==============================
+
+
+if [[ "$selected" == 󰤨* ]]; then
+    exit 0
+fi
+
+
 
 if [[ "$selected" == "󰖪 WiFi Off" ]]; then
 
     nmcli radio wifi off
-    notify-send "WiFi" "WiFi apagado"
     exit 0
 
 fi
@@ -177,16 +203,11 @@ fi
 if [[ "$selected" == "󰖩 WiFi On" ]]; then
 
     nmcli radio wifi on
-    notify-send "WiFi" "WiFi encendido"
     exit 0
 
 fi
 
 
-
-# ==============================
-# Refresh
-# ==============================
 
 if [[ "$selected" == "󰑐 Refresh" ]]; then
 
@@ -198,37 +219,23 @@ fi
 
 
 # ==============================
-# Obtener SSID
+# Olvidar red
 # ==============================
 
-ssid="${wifi_map[$selected]}"
+if [[ "$selected" == "󰆴 Olvidar red" ]]; then
+
+
+    network=$(nmcli -t -f NAME,TYPE connection show |
+        awk -F: '$2=="802-11-wireless"{print $1}' |
+        rofi -dmenu -p "Eliminar red:")
 
 
 
-[[ -z "$ssid" ]] && exit 0
+    [[ -z "$network" ]] && exit 0
 
 
 
-# ==============================
-# Buscar conexión guardada
-# ==============================
-
-saved_uuid=$(nmcli -t -f UUID,NAME connection show |
-    awk -F: -v s="$ssid" '$2==s {print $1; exit}')
-
-
-
-if [[ -n "$saved_uuid" ]]; then
-
-
-    nmcli connection up uuid "$saved_uuid" ifname "$wifi_iface"
-
-
-    if [[ $? -eq 0 ]]; then
-        notify-send "WiFi" "✓ Conectado a $ssid"
-    else
-        notify-send "WiFi" "✗ Error conectando a $ssid"
-    fi
+    nmcli connection delete "$network" >/dev/null 2>&1
 
 
     exit 0
@@ -238,61 +245,78 @@ fi
 
 
 # ==============================
-# Red nueva
+# Datos seleccionados
 # ==============================
 
-security=$(echo "$wifi_list" |
-    awk -F: -v s="$ssid" '$1==s {print $2; exit}')
+data="${wifi_map[$selected]}"
+
+
+ssid=$(echo "$data" | cut -d'|' -f1)
+bssid=$(echo "$data" | cut -d'|' -f2)
+security=$(echo "$data" | cut -d'|' -f3)
 
 
 
+[[ -z "$ssid" ]] && exit 0
+
+
+
+# ==============================
+# Red guardada
+# ==============================
+
+if nmcli -t -f NAME connection show | grep -Fxq "$ssid"; then
+
+
+    nmcli connection up "$ssid" ifname "$wifi_iface"
+
+
+    exit 0
+
+fi
+
+
+
+# ==============================
 # Red abierta
+# ==============================
 
-if [[ -z "$security" || "$security" == "--" ]]; then
+if [[ "$security" == "--" || -z "$security" ]]; then
 
 
     nmcli device wifi connect "$ssid" \
+        bssid "$bssid" \
         ifname "$wifi_iface"
 
 
 
+    exit 0
+
+fi
+
+
+
+# ==============================
 # Red con contraseña
+# ==============================
 
-else
-
-
-    password=$(rofi -dmenu \
-        -password \
-        -p "Contraseña de $ssid:")
+password=$(rofi -dmenu \
+    -password \
+    -p "Contraseña:")
 
 
 
-    [[ -z "$password" ]] && exit 0
+[[ -z "$password" ]] && exit 0
 
 
 
-    nmcli device wifi connect "$ssid" \
-        password "$password" \
-        ifname "$wifi_iface"
-
-
-fi
-
-
-
-if [[ $? -eq 0 ]]; then
-
-    notify-send "WiFi" "✓ Conectado a $ssid"
-
-else
-
-    notify-send "WiFi" "✗ Error conectando a $ssid"
-
-fi
+nmcli device wifi connect "$ssid" \
+    bssid "$bssid" \
+    password "$password" \
+    ifname "$wifi_iface"
 
 
 }
-
 
 
 wifi_menu
