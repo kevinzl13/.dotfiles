@@ -1,0 +1,51 @@
+[global]
+    # actions
+    #mouse_left_click = close_current
+    #mouse_middle_click = do_action, close_current
+    #mouse_right_click = close_all
+
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = close_current
+    mouse_right_click = close_all
+
+    # bar
+    progress_bar = true
+
+    # manejar acciones
+    # dmenu path.
+    #dmenu = /usr/bin/dmenu -p dunst:
+
+    dmenu= rofi -dmenu -p "Accion:"
+
+    # icons
+    icon_theme = Adwaita
+    # Colores generales
+    background = "#262626"       # Fondo por defecto
+    foreground = "#FFFFFF"       # Texto por defecto
+    frame_color = "#bd93f9"      # Color del borde general
+    separator_color = "#585B70"  # Separador entre título y mensaje
+    progress_bar = "#89B4FA"     # Barra de progreso (si la usas)
+    font = Monospace 10
+
+[urgency_low]
+    background = "#262626"
+    foreground = "#519872"       # Verde para info leve
+    frame_color = "#519872"
+
+[urgency_normal]
+    background = "#262626"
+    foreground = "#FAB387"       # Peach para mensajes normales
+    frame_color = "#FAB387"
+
+[urgency_critical]
+    background = "#181825"       # Crust oscuro para alertas
+    foreground = "#F38BA8"       # Alert color
+    frame_color = "#F38BA8"
+
+[frame]
+    width = 2
+
+[icon]
+    # Si quieres íconos en notificaciones
+    position = left
+    size = 32

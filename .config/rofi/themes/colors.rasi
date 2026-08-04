@@ -1,0 +1,28 @@
+* {
+    text-color : #FFFFFF;
+    urgent : #F38BA8;
+    active : #DDB6F2;
+    bg : #181825;
+    bg-alt : #262626;
+    fg : #FFFFFF;
+    fg-alt : #FAB387;
+    selected : #DDB6F2;
+    background-color: #181825;
+    background: #262626;
+    accent: #BD93F9;
+    mauve: #DDB6F2;
+    crust: #181825;
+    peach: #FAB387;
+    alert: #F38BA8;
+    disabled: #585B70;
+    primary: #89B4FA;
+    green: #519872;
+    red: #DC323F;
+    blue: #268BD2;
+    urgent-foreground: #FF1844;
+    active-foreground: #80CBC4;
+    lightfg: #586875;
+    separatorcolor: #DDB6F2;
+    bordercolor: #262626;
+    bordercolorwindow: #BD93F9;
+}
