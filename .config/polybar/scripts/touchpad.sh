@@ -18,9 +18,9 @@ case "$1" in
 
     status)
         if [ "$(get_status)" = "1" ]; then
-            echo "󰟸 ON"
+             echo "%{F#bd93f9}󰟸 ON%{F-}"
         else
-            echo "󰤳 OFF"
+             echo "%{F#F38BA8}󰤳 OFF%{F-}"
         fi
         ;;
 esac
